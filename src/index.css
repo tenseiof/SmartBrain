@@ -3,7 +3,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: 'Courier New', Courier, monospace;
 	background: hsla(184, 85%, 63%, 1);
 
 	background: linear-gradient(

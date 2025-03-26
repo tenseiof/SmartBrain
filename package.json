@@ -4,12 +4,15 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite --port 3000",
 		"build": "vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.0.16",
+		"cors": "^2.8.5",
+		"express": "^4.21.2",
+		"node-fetch": "^3.3.2",
 		"particles-bg": "^2.5.5",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
