@@ -9,6 +9,7 @@
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 	padding: 24px;
 	width: 700px;
+	max-width: 100%;
 }
 
 .form-container input {
