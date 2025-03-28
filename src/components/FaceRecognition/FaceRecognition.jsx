@@ -1,4 +1,4 @@
-const FaceRecognition = ({ imageUrl, box }) => {
+const FaceRecognition = ({ imageUrl, box, errorImage }) => {
 	if (box) {
 		return (
 			<div className='flex justify-center items-center mt-8'>
@@ -30,6 +30,9 @@ const FaceRecognition = ({ imageUrl, box }) => {
 				</div>
 			</div>
 		);
+	}
+	if (errorImage) {
+		return <div className='p-4 text-center'>{errorImage}</div>;
 	}
 };
 

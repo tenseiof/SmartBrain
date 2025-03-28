@@ -1,6 +1,6 @@
 import './ImageLinkForm.css';
 
-const ImageLinkForm = ({ input, inputChange, buttonSubmit }) => {
+const ImageLinkForm = ({ input, inputChange, buttonSubmit, loading }) => {
 	return (
 		<div className='text-center'>
 			<p className='text-lg font-extralight text-black mb-6 text-center drop-shadow-md'>
@@ -18,10 +18,10 @@ const ImageLinkForm = ({ input, inputChange, buttonSubmit }) => {
 					<button
 						className='w-1/4 text-white text-lg font-medium py-2 rounded-md active:scale-95 shadow-md'
 						onClick={buttonSubmit}
-						// disabled={true}
+						disabled={loading}
 						//Добавить лоадинг + дизейбл кнопки
 					>
-						Detect
+						{loading ? 'Loading...' : 'Detect'}
 					</button>
 				</div>
 			</div>

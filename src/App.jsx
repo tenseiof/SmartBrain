@@ -11,12 +11,14 @@ function App() {
 	const [faceData, setFaceData] = useState(null);
 	const [submitedImageUrl, setSubmitedImageUrl] = useState('');
 	const [errorImageUrl, setErrorImageUrl] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	const USER_ID = 'edotensei';
 	const APP_ID = 'SmartBrain';
 
 	const onInputChange = event => setInputState(event.target.value);
 	const onButtonSubmit = () => {
+		setLoading(true);
 		setErrorImageUrl('');
 		const raw = JSON.stringify({
 			user_app_id: {
@@ -51,13 +53,13 @@ function App() {
 					setFaceData(result.outputs[0].data.regions);
 					setSubmitedImageUrl(result.outputs[0].input.data.image.url);
 				} else {
-					console.log('Лица не обнаружены.');
 					setErrorImageUrl('No face detection.');
 					setFaceData(null);
 					setSubmitedImageUrl('');
 				}
 			})
-			.catch(error => console.error('Ошибка при запросе:', error));
+			.catch(error => console.error('Ошибка при запросе:', error))
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -71,9 +73,13 @@ function App() {
 					input={inputState}
 					inputChange={onInputChange}
 					buttonSubmit={onButtonSubmit}
+					loading={loading}
 				/>
-				<FaceRecognition imageUrl={submitedImageUrl} box={faceData} />
-				{errorImageUrl && <div className='text-center'>{errorImageUrl}</div>}
+				<FaceRecognition
+					imageUrl={submitedImageUrl}
+					box={faceData}
+					errorImage={errorImageUrl}
+				/>
 			</div>
 		</>
 	);
