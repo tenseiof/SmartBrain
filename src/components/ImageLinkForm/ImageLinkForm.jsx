@@ -19,7 +19,6 @@ const ImageLinkForm = ({ input, inputChange, buttonSubmit, loading }) => {
 						className='w-1/4 text-white text-lg font-medium py-2 rounded-md active:scale-95 shadow-md'
 						onClick={buttonSubmit}
 						disabled={loading}
-						//Добавить лоадинг + дизейбл кнопки
 					>
 						{loading ? 'Loading...' : 'Detect'}
 					</button>
