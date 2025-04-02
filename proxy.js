@@ -25,11 +25,11 @@ app.post('/clarifai', async (req, res) => {
 		const data = await response.json();
 		res.json(data);
 	} catch (error) {
-		console.error('Ошибка прокси:', error);
-		res.status(500).json({ error: 'Ошибка сервера' });
+		console.error('Proxy error:', error);
+		res.status(500).json({ error: 'Server error' });
 	}
 });
 
 app.listen(5000, () =>
-	console.log('✅ Прокси-сервер запущен на http://localhost:5000')
+	console.log('✅ Proxy-server is working on http://localhost:5000')
 );

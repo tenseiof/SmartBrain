@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ParticlesBg from 'particles-bg';
 import Navigation from './components/Navigation/Navigation';
+import SignIn from './components/SignIn/SignIn';
 import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -12,6 +13,7 @@ function App() {
 	const [submitedImageUrl, setSubmitedImageUrl] = useState('');
 	const [errorImageUrl, setErrorImageUrl] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [route, setRoute] = useState('signIn');
 
 	const USER_ID = 'edotensei';
 	const APP_ID = 'SmartBrain';
@@ -48,17 +50,17 @@ function App() {
 				return response.json();
 			})
 			.then(result => {
-				console.log('Ответ от API:', result);
+				console.log('Api respond:', result);
 				if (result.outputs?.[0]?.data?.regions) {
 					setFaceData(result.outputs[0].data.regions);
 					setSubmitedImageUrl(result.outputs[0].input.data.image.url);
 				} else {
-					setErrorImageUrl('No face detection.');
+					setErrorImageUrl('No face detected.');
 					setFaceData(null);
 					setSubmitedImageUrl('');
 				}
 			})
-			.catch(error => console.error('Ошибка при запросе:', error))
+			.catch(error => console.error('Error respond:', error))
 			.finally(() => setLoading(false));
 	};
 
@@ -67,19 +69,25 @@ function App() {
 			<div className='App'>
 				<ParticlesBg type='cobweb' color='#ffffff' bg={true} />
 				<Navigation />
-				<Logo />
-				<Rank />
-				<ImageLinkForm
-					input={inputState}
-					inputChange={onInputChange}
-					buttonSubmit={onButtonSubmit}
-					loading={loading}
-				/>
-				<FaceRecognition
-					imageUrl={submitedImageUrl}
-					box={faceData}
-					errorImage={errorImageUrl}
-				/>
+				{route === 'signIn' ? (
+					<SignIn />
+				) : (
+					<div>
+						<Logo />
+						<Rank />
+						<ImageLinkForm
+							input={inputState}
+							inputChange={onInputChange}
+							buttonSubmit={onButtonSubmit}
+							loading={loading}
+						/>
+						<FaceRecognition
+							imageUrl={submitedImageUrl}
+							box={faceData}
+							errorImage={errorImageUrl}
+						/>
+					</div>
+				)}
 			</div>
 		</>
 	);
