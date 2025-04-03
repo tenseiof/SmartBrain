@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ParticlesBg from 'particles-bg';
 import Navigation from './components/Navigation/Navigation';
 import SignIn from './components/SignIn/SignIn';
+import Register from './components/Register/Register';
 import Logo from './components/Logo/Logo';
 import Rank from './components/Rank/Rank';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -14,9 +15,22 @@ function App() {
 	const [errorImageUrl, setErrorImageUrl] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [route, setRoute] = useState('signIn');
+	const [isSignedIn, setIsSignedIn] = useState(false);
 
 	const USER_ID = 'edotensei';
 	const APP_ID = 'SmartBrain';
+
+	const onRouteChange = newRoute => {
+		if (newRoute === 'signOut') {
+			setIsSignedIn(false);
+			setRoute('signIn');
+		} else if (newRoute === 'home') {
+			setIsSignedIn(true);
+			setRoute('home');
+		} else {
+			setRoute(newRoute);
+		}
+	};
 
 	const onInputChange = event => setInputState(event.target.value);
 	const onButtonSubmit = () => {
@@ -68,10 +82,8 @@ function App() {
 		<>
 			<div className='App'>
 				<ParticlesBg type='cobweb' color='#ffffff' bg={true} />
-				<Navigation />
-				{route === 'signIn' ? (
-					<SignIn />
-				) : (
+				<Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
+				{route === 'home' ? (
 					<div>
 						<Logo />
 						<Rank />
@@ -87,6 +99,10 @@ function App() {
 							errorImage={errorImageUrl}
 						/>
 					</div>
+				) : route === 'signIn' ? (
+					<SignIn onRouteChange={onRouteChange} />
+				) : (
+					<Register onRouteChange={onRouteChange} />
 				)}
 			</div>
 		</>

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
-const SignIn = ({ onRouteChange }) => {
+const Register = ({ onRouteChange }) => {
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		console.log('Email:', email, 'Password:', password);
+		console.log('Name:', name, 'Email:', email, 'Password:', password);
 		onRouteChange('home');
 	};
 
@@ -14,9 +15,22 @@ const SignIn = ({ onRouteChange }) => {
 		<div className='flex items-center justify-center mt-10 h-fit'>
 			<div className='p-8 rounded-xl shadow-2xl w-full max-w-sm text-center'>
 				<h2 className='text-4xl font-bold mb-6 text-black drop-shadow-md'>
-					Sign In
+					Register
 				</h2>
 				<form onSubmit={handleSubmit} className='space-y-4'>
+					<div className='text-left'>
+						<label className='block text-sm font-semibold text-black drop-shadow-md'>
+							Name
+						</label>
+						<input
+							type='text'
+							value={name}
+							onChange={e => setName(e.target.value)}
+							required
+							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-gray-600 focus:outline-none drop-shadow-md'
+							placeholder='nickname'
+						/>
+					</div>
 					<div className='text-left'>
 						<label className='block text-sm font-semibold text-black drop-shadow-md'>
 							Email
@@ -50,19 +64,9 @@ const SignIn = ({ onRouteChange }) => {
 						Sign In
 					</button>
 				</form>
-				<p className='mt-4 text-sm text-gray-600 drop-shadow-md'>
-					Don’t have an account?{' '}
-					<p
-						onClick={() => onRouteChange('register')}
-						href='#'
-						className='text-black cursor-pointer font-semibold hover:underline drop-shadow-md'
-					>
-						Register
-					</p>
-				</p>
 			</div>
 		</div>
 	);
 };
 
-export default SignIn;
+export default Register;
