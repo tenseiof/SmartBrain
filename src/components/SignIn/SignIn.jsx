@@ -12,7 +12,7 @@ const SignIn = ({ onRouteChange }) => {
 
 	return (
 		<div className='flex items-center justify-center mt-10 h-fit'>
-			<div className='p-8 rounded-xl shadow-2xl w-full max-w-sm text-center'>
+			<div className='p-8 rounded-xl shadow-2xl w-full max-w-sm text-center bg-gradient-to-r from-blue-200 to-purple-300'>
 				<h2 className='text-4xl font-bold mb-6 text-black drop-shadow-md'>
 					Sign In
 				</h2>
