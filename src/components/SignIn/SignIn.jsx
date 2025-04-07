@@ -52,13 +52,12 @@ const SignIn = ({ onRouteChange }) => {
 				</form>
 				<p className='mt-4 text-sm text-gray-600 drop-shadow-md'>
 					Don’t have an account?{' '}
-					<p
+					<button
 						onClick={() => onRouteChange('register')}
-						href='#'
 						className='text-black cursor-pointer font-semibold hover:underline drop-shadow-md'
 					>
 						Register
-					</p>
+					</button>
 				</p>
 			</div>
 		</div>

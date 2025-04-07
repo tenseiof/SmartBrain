@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
 
+const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -30,6 +31,6 @@ app.post('/clarifai', async (req, res) => {
 	}
 });
 
-app.listen(5000, () =>
-	console.log('✅ Proxy-server is working on http://localhost:5000')
+app.listen(PORT, () =>
+	console.log(`✅ Proxy-server is working on http://localhost:${PORT}`)
 );
