@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const CLARIFAI_URL =
-	'https://api.clarifai.com/v2/models/face-detection/outputs';
+	// 'https://api.clarifai.com/v2/models/face-detection/outputs';
 const CLARIFAI_KEY = '77fe85854ba0455f967290762a626793';
 
 app.post('/clarifai', async (req, res) => {
