@@ -1,14 +1,28 @@
 import { useState } from 'react';
 
-const Register = ({ onRouteChange }) => {
+const Register = ({ onRouteChange, loadUser }) => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		console.log('Name:', name, 'Email:', email, 'Password:', password);
-		onRouteChange('home');
+		fetch('http://localhost:5000/register', {
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				email: email,
+				password: password,
+				name: name
+			})
+		})
+			.then(response => response.json())
+			.then(user => {
+				if (user) {
+					loadUser(user);
+					onRouteChange('home');
+				}
+			});
 	};
 
 	return (
@@ -61,7 +75,7 @@ const Register = ({ onRouteChange }) => {
 						type='submit'
 						className='w-2xs mt-4 text-black py-2 border rounded-lg font-semibold transition-all duration-300 hover:scale-105 drop-shadow-md'
 					>
-						Sign In
+						Register
 					</button>
 				</form>
 			</div>

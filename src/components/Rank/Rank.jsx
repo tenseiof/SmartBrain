@@ -1,11 +1,11 @@
-const Rank = () => {
+const Rank = ({ name, entries }) => {
 	return (
 		<div className='p-4'>
 			<div className='text-center text-white text-lg drop-shadow-md'>
-				{'Maksym your current rank is...'}
+				{`${name}, your current entry count is...`}
 			</div>
 			<div className='text-center text-white text-3xl drop-shadow-md'>
-				{'#27'}
+				{entries}
 			</div>
 		</div>
 	);

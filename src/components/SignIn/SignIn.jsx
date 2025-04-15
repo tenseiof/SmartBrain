@@ -1,13 +1,26 @@
 import { useState } from 'react';
 
-const SignIn = ({ onRouteChange }) => {
+const SignIn = ({ onRouteChange, loadUser }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		console.log('Email:', email, 'Password:', password);
-		onRouteChange('home');
+		fetch('http://localhost:5000/signin', {
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				email: email,
+				password: password
+			})
+		})
+			.then(response => response.json())
+			.then(user => {
+				if (user.id) {
+					loadUser(user);
+					onRouteChange('home');
+				}
+			});
 	};
 
 	return (

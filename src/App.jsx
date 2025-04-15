@@ -16,6 +16,25 @@ function App() {
 	const [loading, setLoading] = useState(false);
 	const [route, setRoute] = useState('signIn');
 	const [isSignedIn, setIsSignedIn] = useState(false);
+	const [user, setUser] = useState({
+		id: '',
+		name: '',
+		email: '',
+		entries: 0,
+		joined: ''
+	});
+
+	const loadUser = data => {
+		setUser({
+			user: {
+				id: data.id,
+				name: data.name,
+				email: data.email,
+				entries: data.entries,
+				joined: data.joined
+			}
+		});
+	};
 
 	const USER_ID = 'edotensei';
 	const APP_ID = 'SmartBrain';
@@ -52,10 +71,12 @@ function App() {
 			]
 		});
 
-		fetch('http://localhost:5000/clarifai', {
-			method: 'POST',
+		fetch('http://localhost:5000/image', {
+			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
-			body: raw
+			body: JSON.stringify({
+				id: user.id
+			})
 		})
 			.then(response => {
 				if (!response.ok) {
@@ -64,7 +85,6 @@ function App() {
 				return response.json();
 			})
 			.then(result => {
-				console.log('Api respond:', result);
 				if (result.outputs?.[0]?.data?.regions) {
 					setFaceData(result.outputs[0].data.regions);
 					setSubmitedImageUrl(result.outputs[0].input.data.image.url);
@@ -73,6 +93,13 @@ function App() {
 					setFaceData(null);
 					setSubmitedImageUrl('');
 				}
+			})
+			.then(count => {
+				setUser({
+					user: {
+						entries: count
+					}
+				});
 			})
 			.catch(error => console.error('Error respond:', error))
 			.finally(() => setLoading(false));
@@ -86,7 +113,7 @@ function App() {
 				{route === 'home' ? (
 					<div>
 						<Logo />
-						<Rank />
+						<Rank name={user.name} entries={user.entries} />
 						<ImageLinkForm
 							input={inputState}
 							inputChange={onInputChange}
@@ -100,9 +127,9 @@ function App() {
 						/>
 					</div>
 				) : route === 'signIn' ? (
-					<SignIn onRouteChange={onRouteChange} />
+					<SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
 				) : (
-					<Register onRouteChange={onRouteChange} />
+					<Register loadUser={loadUser} onRouteChange={onRouteChange} />
 				)}
 			</div>
 		</>
