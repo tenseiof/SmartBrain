@@ -26,13 +26,11 @@ function App() {
 
 	const loadUser = data => {
 		setUser({
-			user: {
-				id: data.id,
-				name: data.name,
-				email: data.email,
-				entries: data.entries,
-				joined: data.joined
-			}
+			id: data.id,
+			name: data.name,
+			email: data.email,
+			entries: data.entries,
+			joined: data.joined
 		});
 	};
 
@@ -71,12 +69,10 @@ function App() {
 			]
 		});
 
-		fetch('http://localhost:5000/image', {
-			method: 'PUT',
+		fetch('http://localhost:5000/clarifai', {
+			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				id: user.id
-			})
+			body: raw
 		})
 			.then(response => {
 				if (!response.ok) {
@@ -88,18 +84,24 @@ function App() {
 				if (result.outputs?.[0]?.data?.regions) {
 					setFaceData(result.outputs[0].data.regions);
 					setSubmitedImageUrl(result.outputs[0].input.data.image.url);
+					fetch('http://localhost:5000/image', {
+						method: 'PUT',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ id: user.id })
+					})
+						.then(res => res.json())
+						.then(count => {
+							setUser(prev => ({
+								...prev,
+								entries: count
+							}));
+						})
+						.catch(err => console.log('Error updating count:', err));
 				} else {
 					setErrorImageUrl('No face detected.');
 					setFaceData(null);
 					setSubmitedImageUrl('');
 				}
-			})
-			.then(count => {
-				setUser({
-					user: {
-						entries: count
-					}
-				});
 			})
 			.catch(error => console.error('Error respond:', error))
 			.finally(() => setLoading(false));
