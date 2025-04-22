@@ -3,9 +3,12 @@ import { useState } from 'react';
 const SignIn = ({ onRouteChange, loadUser }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
 
 	const handleSubmit = e => {
 		e.preventDefault();
+		setError('');
+
 		fetch('http://localhost:5000/signin', {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
@@ -14,12 +17,20 @@ const SignIn = ({ onRouteChange, loadUser }) => {
 				password: password
 			})
 		})
-			.then(response => response.json())
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Invalid email or password');
+				}
+				return response.json();
+			})
 			.then(user => {
 				if (user.id) {
 					loadUser(user);
 					onRouteChange('home');
 				}
+			})
+			.catch(err => {
+				setError(err.message);
 			});
 	};
 
@@ -56,6 +67,13 @@ const SignIn = ({ onRouteChange, loadUser }) => {
 							placeholder='••••••••'
 						/>
 					</div>
+
+					{error && (
+						<div className='mb-0.5 text-red-600 font-semibold drop-shadow-md'>
+							{error}
+						</div>
+					)}
+
 					<button
 						type='submit'
 						className='w-2xs mt-4 text-black py-2 border rounded-lg font-semibold transition-all duration-300 hover:scale-105 drop-shadow-md'

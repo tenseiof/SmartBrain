@@ -23,6 +23,21 @@ function App() {
 		entries: 0,
 		joined: ''
 	});
+	const initialState = {
+		inputState: '',
+		faceData: null,
+		submitedImageUrl: '',
+		errorImageUrl: '',
+		loading: false,
+		isSignedIn: false,
+		user: {
+			id: '',
+			name: '',
+			email: '',
+			entries: 0,
+			joined: ''
+		}
+	};
 
 	const loadUser = data => {
 		setUser({
@@ -39,7 +54,13 @@ function App() {
 
 	const onRouteChange = newRoute => {
 		if (newRoute === 'signOut') {
-			setIsSignedIn(false);
+			setInputState(initialState.inputState);
+			setFaceData(initialState.faceData);
+			setSubmitedImageUrl(initialState.submitedImageUrl);
+			setErrorImageUrl(initialState.errorImageUrl);
+			setLoading(initialState.loading);
+			setIsSignedIn(initialState.isSignedIn);
+			setUser(initialState.user);
 			setRoute('signIn');
 		} else if (newRoute === 'home') {
 			setIsSignedIn(true);
