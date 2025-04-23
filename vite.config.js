@@ -1,15 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-const viteEnv = {};
-Object.keys(process.env).forEach(key => {
-	if (key.startsWith('VITE_')) {
-		viteEnv[`import.meta.env.${key}`] = process.env[key];
-	}
-});
 
-// https://vite.dev/config
-export default defineConfig({
-	define: viteEnv,
-	plugins: [react(), tailwindcss()]
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd());
+	const processEnvValues = {
+		'process.env': Object.entries(env).reduce((prev, [key, val]) => {
+			console.log(key, val);
+			return {
+				...prev,
+				[key]: val
+			};
+		}, {})
+	};
+
+	return {
+		plugins: [react(), tailwindcss()],
+		define: processEnvValues
+	};
 });
