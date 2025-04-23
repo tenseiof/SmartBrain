@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { appConfig } from '../../appconfig';
 
 const SignIn = ({ onRouteChange, loadUser }) => {
 	const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ const SignIn = ({ onRouteChange, loadUser }) => {
 		e.preventDefault();
 		setError('');
 
-		fetch('http://localhost:5000/signin', {
+		fetch(`${appConfig.apiBaseUrl}/signin`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({

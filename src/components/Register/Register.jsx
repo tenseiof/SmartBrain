@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { appConfig } from '../../appconfig';
 
 const Register = ({ onRouteChange, loadUser }) => {
 	const [name, setName] = useState('');
@@ -7,7 +8,7 @@ const Register = ({ onRouteChange, loadUser }) => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		fetch('http://localhost:5000/register', {
+		fetch(`${appConfig.apiBaseUrl}/register`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
