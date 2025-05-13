@@ -66,6 +66,7 @@ const Register = ({ onRouteChange, loadUser }) => {
 						<input
 							type='password'
 							value={password}
+							minlength='5'
 							onChange={e => setPassword(e.target.value)}
 							required
 							className='w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-gray-600 focus:outline-none drop-shadow-md'
